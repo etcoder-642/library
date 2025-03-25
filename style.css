@@ -3,6 +3,12 @@
     src: url(../../Poppins/Poppins-SemiBold.ttf);
 }
 
+:root {
+    --gradient-orange: linear-gradient(to right, chocolate, crimson); 
+    --gradient-blue: linear-gradient(to right, rgba(58, 58, 153, 1), rgba(2, 178, 236, 1));
+    --gradient-blue-hover: linear-gradient(to right, rgba(58, 58, 153, 0.8), rgba(2, 178, 236, 0.8))
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -13,6 +19,7 @@ body {
     font-family: Poppins;
 }
 
+
 .container {
     display: flex;
     flex-direction: column;
@@ -20,8 +27,9 @@ body {
     align-items: center;
 }
 
+
 .head {
-    background-color:#d2691e;
+    background:var(--gradient-orange);
     font-size: 56px;
     color: white;
 }
@@ -30,15 +38,116 @@ body {
     width: 100%;
 }
 
-header, ul {
+header {
     margin: 32px auto;
-    list-style: none;
-    padding: 32px 64px;
     width: fit-content;
 }
 
 ul {
+    margin: auto;
+    padding: 32px;
+    list-style: none;
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 300px));
+    grid-auto-rows: min-content;
+    gap: 12px ;
+    justify-content: center;
+}
+
+button {
+    display: block;
+    width: fit-content;
+    margin: 16px auto;
+    padding: 8px 20px;
+    border: none;
+    background: var(--gradient-blue);
+    font-family: Poppins;
+    font-size: 18px;
+    color: white;
+    border-radius: 8px;    
+}
+
+button:hover {
+    background: var(--gradient-blue-hover);
+}
+
+li {
+    padding: 32px 64px;
     background-color:#d7d8da;
     border-radius: 12px;
 }
 
+/* Normally Hidden Info - styles for elements that will appear only when certain buttons are clicked */
+
+.displaybox {
+    position: fixed;
+    top: 10%;
+    left: 30%;
+    margin: auto;
+    padding: 16px;
+
+    width: 30%;
+    min-width: 300px;
+    overflow: auto;
+
+    display: none;
+    flex-direction: column;
+
+    background: var(--gradient-orange);
+    color: white;
+    border-radius: 12px;
+}
+
+.displaybox > header {
+    font-size: 24px;
+}
+
+.inputs > input, input:focus {
+    margin: 12px;
+    font:inherit;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+.readStatus {
+    margin: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+.readButton {
+    width: 44px;
+    height: 20px;
+    border-radius: 12px;
+    background-color: #fff;
+    border: 2px solid;
+    display: flex;
+    justify-content: start;
+}
+
+.circle {
+    align-self: flex-end;
+    width: 18px;
+    height: 20px;
+    margin-left: 3px;
+    margin-right: 3px;
+    clip-path: circle();
+    background-color: #000;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0; /* Covers entire screen */
+    background: rgba(0, 0, 0, 0.5); /* Dark semi-transparent */
+    backdrop-filter: blur(5px); /* Blurs the background */
+  }
