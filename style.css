@@ -4,12 +4,15 @@
 }
 
 :root {
-    --gradient-orange: linear-gradient(to right, chocolate, crimson); 
+    --gradient-orange: linear-gradient(to right, rgba(210, 105, 30, 1), rgba(220, 20, 60, 1)); 
+    --gradient-orange-hover: linear-gradient(to right, rgba(210, 105, 30, 0.8), rgba(220, 20, 60, 0.8)); 
     --gradient-blue: linear-gradient(to right, rgba(58, 58, 153, 1), rgba(2, 178, 236, 1));
-    --gradient-blue-hover: linear-gradient(to right, rgba(58, 58, 153, 0.8), rgba(2, 178, 236, 0.8))
+    --gradient-blue-hover: linear-gradient(to right, rgba(58, 58, 153, 0.8), rgba(2, 178, 236, 0.8));
+    --gradient-box: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.05));
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
@@ -43,15 +46,18 @@ header {
     width: fit-content;
 }
 
-ul {
+li {
+    list-style: none;
+}
+
+.content-list {
     margin: auto;
     padding: 32px;
-    list-style: none;
     width: 80%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 300px));
     grid-auto-rows: min-content;
-    gap: 12px ;
+    gap: 32px ;
     justify-content: center;
 }
 
@@ -72,10 +78,14 @@ button:hover {
     background: var(--gradient-blue-hover);
 }
 
-li {
-    padding: 32px 64px;
-    background-color:#d7d8da;
-    border-radius: 12px;
+.content-list > li {
+    width: 105%;
+    padding: 4px 0px 12px 8px;
+    padding-right: 0;
+    background:var(--gradient-box);
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-left: 12px solid #c75300 ;
 }
 
 /* Normally Hidden Info - styles for elements that will appear only when certain buttons are clicked */
@@ -120,12 +130,13 @@ li {
 
 .readButton {
     width: 44px;
-    height: 20px;
+    height: 24px;
     border-radius: 12px;
     background-color: #fff;
     border: 2px solid;
     display: flex;
     justify-content: start;
+    cursor: pointer;
 }
 
 .circle {
@@ -151,3 +162,44 @@ li {
     background: rgba(0, 0, 0, 0.5); /* Dark semi-transparent */
     backdrop-filter: blur(5px); /* Blurs the background */
   }
+
+
+  .card {
+    width: 100%;
+    padding: 0px 24px 16px 4px;
+    display: flex;
+    flex-direction: column;
+  } 
+
+  .card > ul {
+    display:  flex;
+    flex-direction: column;
+    margin-left: 24px;
+  }
+
+  .btn-state {
+    display: flex;
+  }
+
+  .card > header {
+    margin-left: 4px;
+    margin-bottom: 4px;
+    font-size: 24px;
+  }
+
+button[data-button='upd'], button[data-button='rmv'] {
+    font-size: 12px;
+}
+
+button[data-button='rmv'] {
+    background: var(--gradient-orange);
+}
+
+button[data-button='rmv']:hover {
+    background: var(--gradient-orange);
+}
+
+
+#basecard {
+    display: none;
+}

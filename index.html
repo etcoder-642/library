@@ -15,24 +15,34 @@
         </div>
         <div class="content">
             <button class="btn">Add Book</button>
-            <ul>
-                <li></li>
-                <li></li>
+            <ul class="content-list">
+                <li id="basecard"><div class="card">
+                    <header></header>
+                    <ul>
+                        <li class="author"></li>
+                        <li class="pages"></li>
+                        <li class="status"></li>
+                    </ul>
+                    <div class="btn-state">
+                        <button class="state" data-button="upd">Update Read Status</button>
+                        <button class="rmv" data-button="rmv">Remove</button>
+                    </div>
+                </div></li>
             </ul>
         </div>
     </div>
     <div class="displaybox">
         <header>Add Book Information</header>
-        <div class="inputs">
-            <input type="text" name="title" id="title" placeholder="Title of the Book">
-            <input type="text" name="author" id="author" placeholder="Author">
-            <input type="number" name="pages" id="pages" placeholder="Number of Pages">
+        <form class="inputs">
+            <input type="text" name="title" id="title" placeholder="Title of the Book" required>
+            <input type="text" name="author" id="author" placeholder="Author" required>
+            <input type="number" name="pages" id="pages" placeholder="Number of Pages" required >
             <div class="readStatus">
                 <span>Have you Read the Book</span>
                 <div class="readButton"><div class="circle"></div></div>
             </div>
-            <button class="btn box-btn">Add Book</button>
-        </div>
+            <button class="box-btn" type="submit">Add Book</button>
+        </form>
     </div>
 
 </body>
