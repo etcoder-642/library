@@ -196,7 +196,7 @@ button[data-button='rmv'] {
 }
 
 button[data-button='rmv']:hover {
-    background: var(--gradient-orange);
+    background: var(--gradient-orange-hover);
 }
 
 

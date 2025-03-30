@@ -54,6 +54,15 @@ document.addEventListener('click', (e)=>{
             }
         }
         console.log(myLibrary, 'Here I am from the remove Button');    
+    }else if(e.target.className === 'state'){
+        readStatus = !readStatus;
+        for(i=0;i<myLibrary.length;i++){
+            if(myLibrary[i].id === e.target.dataset.uniqueId){
+                myLibrary[i].readStatus = readStatus ? true: false;
+                document.querySelector(`[data-status-id='${myLibrary[i].id}']`).textContent = `Read Status: ${myLibrary[i].readStatus ? 'Read' : 'Not Read'}`;
+            }
+        }
+        
     }
 })
 
@@ -86,6 +95,10 @@ function displayBookInfo(array){
     CardClone.querySelector('.author').textContent = `Author: ${lastItem.author}`;
     CardClone.querySelector('.pages').textContent = `Pages: ${lastItem.pages}`;
     CardClone.querySelector('.status').textContent = `Read Status: ${lastItem.readStatus ? 'Read' : 'Not Read'}`; 
+    CardClone.querySelector('.status').setAttribute('data-status-id', lastItem.id);
+    CardClone.querySelector('.state').setAttribute('data-unique-id', lastItem.id);
+
+
     main.id = '';
     main.setAttribute('data-unique-id', lastItem.id);
     CardClone.querySelector('.rmv').setAttribute('data-unique-id', lastItem.id);
@@ -96,7 +109,7 @@ function displayBookInfo(array){
     console.log(myLibrary);
 }
 
-myLibrary.push(setBookInfo(crypto.randomUUID(), 'Mere Christianity', 'CS. Lewis', '300', 'Not Read'));
+myLibrary.push(setBookInfo(crypto.randomUUID(), 'Mere Christianity', 'CS. Lewis', '300', false));
 displayBookInfo(myLibrary);
 
 
