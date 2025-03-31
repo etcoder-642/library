@@ -87,7 +87,7 @@ The system is built using HTML, CSS, and JavaScript. It dynamically updates the 
 
 3. **Submit Button (`.box-btn`)**
    - Validates the input fields.
-   - Creates a new book object using `setBookInfo`.
+   - Creates a new book object using `setNewBook`.
    - Adds the book to `myLibrary` and updates the DOM using `displayBookInfo`.
    - Hides the `overlay` and `displaybox`.
 
@@ -107,7 +107,7 @@ The system is built using HTML, CSS, and JavaScript. It dynamically updates the 
 
 2. **User Input**: The user fills in the book details and clicks "Add Book".
    - The input fields are validated.
-   - A new book object is created using `setBookInfo` function which in turn uses the `bookInfo` constructor.
+   - A new book object is created using `setNewBook` function which in turn uses the `bookInfo` constructor.
    - The book is added to `myLibrary`.
    - The `displayBookInfo` function creates a new card and appends it to the `contentList`.
    - The `overlay` and `displaybox` are hidden.
