@@ -8,6 +8,22 @@ let readStatus = false;
 
 let myLibrary = [];
 
+// populate the main array(mylibrary) and the displayed information from previously
+// ... saved data in the local storage
+document.addEventListener('DOMContentLoaded', ()=>{
+    let storedBooks = [];
+    storedBooks = JSON.parse(localStorage.getItem('Books'));
+
+    if(storedBooks){
+        for(i=0;i<storedBooks.length;i++){
+            myLibrary.push(storedBooks[i]);
+            displayBookInfo(myLibrary[i]);
+        }
+    }
+})
+
+
+// A function which removes an element of an array provided an index, and shifts the other elements to fill the space
 function removeAndShift(array, indexToRemove) {
     if (indexToRemove >= 0 && indexToRemove < array.length) {
       array.splice(indexToRemove, 1); // Remove 1 element at indexToRemove
@@ -20,13 +36,11 @@ function removeAndShift(array, indexToRemove) {
 // Click Event Handler
 
 document.addEventListener('click', (e)=>{
+    // the first add book button is clicked
     if(e.target.className === 'btn'){
-        title.value = '';
-        pages.value = '';
-        author.value = '';
-
         overlay.style.display = 'block';
         displaybox.style.display = 'flex';    
+    // for the toggle button that act as radio button in the displayBox
     }else if(e.target.className.includes('readButton')){
         if(readStatus === false){
             readStatus = true;
@@ -35,17 +49,19 @@ document.addEventListener('click', (e)=>{
             readStatus = false;
             e.target.style.justifyContent = 'start';            
         }    
+    // When the Add Book button inside the displayBox button is clicked
     }else if(e.target.className.includes('box-btn')){
         if(title.checkValidity() && author.checkValidity() && pages.checkValidity()){
             e.preventDefault();
-            let newBook = setBookInfo(crypto.randomUUID(), title.value, author.value, pages.value, readStatus);
-            myLibrary.push(newBook)
-            console.log(myLibrary);
-            displayBookInfo(myLibrary);
-        
+            setNewBook(crypto.randomUUID(), title.value, author.value, pages.value, readStatus);
+            localStorage.setItem('Books', '');
+            localStorage.setItem('Books', JSON.stringify(myLibrary));
+
             overlay.style.display = 'none';
-            displaybox.style.display = 'none';        
+            displaybox.style.display = 'none'; 
+            document.querySelector('form').reset();
         }
+    // remove button is clicked
     }else if(e.target.className === 'rmv'){
         for(i=0;i<myLibrary.length;i++){
             if(myLibrary[i].id === e.target.dataset.uniqueId){
@@ -53,7 +69,9 @@ document.addEventListener('click', (e)=>{
                 removeAndShift(myLibrary, i);
             }
         }
-        console.log(myLibrary, 'Here I am from the remove Button');    
+        localStorage.setItem('Books', '');
+        localStorage.setItem('Books', JSON.stringify(myLibrary));
+    // update read status button is clicked
     }else if(e.target.className === 'state'){
         readStatus = !readStatus;
         for(i=0;i<myLibrary.length;i++){
@@ -62,12 +80,12 @@ document.addEventListener('click', (e)=>{
                 document.querySelector(`[data-status-id='${myLibrary[i].id}']`).textContent = `Read Status: ${myLibrary[i].readStatus ? 'Read' : 'Not Read'}`;
             }
         }
-        
+        localStorage.setItem('Books', '');
+        localStorage.setItem('Books', JSON.stringify(myLibrary));
     }
 })
 
-// The Code that Matters the most
-
+// All the Important functions
 
 function bookInfo(id, title, author, pages, readStatus){
     this.id = id;
@@ -77,40 +95,50 @@ function bookInfo(id, title, author, pages, readStatus){
     this.readStatus = readStatus;
 }
 
-function setBookInfo(id, title, author, pages, readStatus){
-    let newBook = new bookInfo(id, title, author, pages, readStatus);
-    return newBook;    
+function setNewBook(id, title, author, pages, readStatus){
+    myLibrary.push(new bookInfo(id, title, author, pages, readStatus));
+    displayBookInfo(myLibrary[myLibrary.length-1]);
 }
 
 let contentList = document.querySelector('.content-list');
 let card = document.querySelector('.card');
 
-function displayBookInfo(array){
-    let lastItem = array[array.length - 1];
+
+function displayBookInfo(obj){
+    // selects the last item of the array because that is the newly created one
     let main = document.createElement('li');
-    let CardClone = card.cloneNode(true);
+    let clonedCard = card.cloneNode(true);
 
 
-    CardClone.querySelector('header').textContent = lastItem.title;
-    CardClone.querySelector('.author').textContent = `Author: ${lastItem.author}`;
-    CardClone.querySelector('.pages').textContent = `Pages: ${lastItem.pages}`;
-    CardClone.querySelector('.status').textContent = `Read Status: ${lastItem.readStatus ? 'Read' : 'Not Read'}`; 
-    CardClone.querySelector('.status').setAttribute('data-status-id', lastItem.id);
-    CardClone.querySelector('.state').setAttribute('data-unique-id', lastItem.id);
+    clonedCard.querySelector('header').textContent = obj.title;
+    clonedCard.querySelector('.author').textContent = `Author: ${obj.author}`;
+    clonedCard.querySelector('.pages').textContent = `Pages: ${obj.pages}`;
+    clonedCard.querySelector('.status').textContent = `Read Status: ${obj.readStatus ? 'Read' : 'Not Read'}`; 
+    clonedCard.querySelector('.status').setAttribute('data-status-id', obj.id);
+    clonedCard.querySelector('.state').setAttribute('data-unique-id', obj.id);
 
-
+    // this is needed because the template has an id of basecard which have display none, by making the 
+    // id empte we are essentially isolating this templates from the base
     main.id = '';
-    main.setAttribute('data-unique-id', lastItem.id);
-    CardClone.querySelector('.rmv').setAttribute('data-unique-id', lastItem.id);
+    main.setAttribute('data-unique-id', obj.id);
+    clonedCard.querySelector('.rmv').setAttribute('data-unique-id', obj.id);
 
     contentList.appendChild(main);
-    main.appendChild(CardClone);
-    console.log(CardClone, 'clone');
-    console.log(myLibrary);
+    main.appendChild(clonedCard);
 }
 
-myLibrary.push(setBookInfo(crypto.randomUUID(), 'Mere Christianity', 'CS. Lewis', '300', false));
-displayBookInfo(myLibrary);
+// checks a localStorage for a certain key exists
+function localStorageKeyExists(key) {
+    return localStorage.getItem(key) !== null;
+}
+
+// Add a preloaded data if a data from the localStorage doesn't exist
+if (!localStorageKeyExists('Books')) {
+    setNewBook(crypto.randomUUID(), 'Mere Christianity', 'CS. Lewis', '227', false)
+    setNewBook(crypto.randomUUID(), '1984', 'George Orwell', '328', false)
+    setNewBook(crypto.randomUUID(), 'The Power of His Presence', 'Rogers', '320', true)
+}
+
 
 
 
