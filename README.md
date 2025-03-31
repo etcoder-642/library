@@ -67,7 +67,7 @@ The system is built using HTML, CSS, and JavaScript. It dynamically updates the 
      - `pages`: The number of pages in the book.
      - `readStatus`: Whether the book has been read.
 
-3. **`setBookInfo(id, title, author, pages, readStatus)`**
+3. **`setNewBook(id, title, author, pages, readStatus)`**
    - A helper function that creates and returns a new book object using the `bookInfo` constructor.
 
 4. **`displayBookInfo(array)`**
