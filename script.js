@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 })
 
 
+
 // A function which removes an element of an array provided an index, and shifts the other elements to fill the space
 function removeAndShift(array, indexToRemove) {
     if (indexToRemove >= 0 && indexToRemove < array.length) {
@@ -53,7 +54,8 @@ document.addEventListener('click', (e)=>{
     }else if(e.target.className.includes('box-btn')){
         if(title.checkValidity() && author.checkValidity() && pages.checkValidity()){
             e.preventDefault();
-            setNewBook(crypto.randomUUID(), title.value, author.value, pages.value, readStatus);
+            let newBookInfo = new bookInfo();
+            newBookInfo.setNewBook(crypto.randomUUID(), title.value, author.value, pages.value, readStatus);
             localStorage.setItem('Books', '');
             localStorage.setItem('Books', JSON.stringify(myLibrary));
 
@@ -85,20 +87,22 @@ document.addEventListener('click', (e)=>{
     }
 })
 
-// All the Important functions
 
-function bookInfo(id, title, author, pages, readStatus){
-    this.id = id;
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.readStatus = readStatus;
-}
+// changing the entire codebase into standard Object Oriented Code
 
-function setNewBook(id, title, author, pages, readStatus){
+class bookInfo{
+    constructor(id, title, author, pages, readStatus){
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.readStatus = readStatus;    
+    }
+
+    setNewBook (id, title, author, pages, readStatus){
     myLibrary.push(new bookInfo(id, title, author, pages, readStatus));
     displayBookInfo(myLibrary[myLibrary.length-1]);
-}
+}}
 
 let contentList = document.querySelector('.content-list');
 let card = document.querySelector('.card');
