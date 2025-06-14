@@ -88,7 +88,7 @@ document.addEventListener('click', (e)=>{
 })
 
 
-// changing the entire codebase into standard Object Oriented Code
+// changing the codebase into ES6 Class based code
 
 class bookInfo{
     constructor(id, title, author, pages, readStatus){
